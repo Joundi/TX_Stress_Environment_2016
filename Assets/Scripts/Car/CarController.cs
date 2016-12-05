@@ -159,16 +159,21 @@ namespace UnityStandardAssets.Vehicles.Car
 
             //Set the handbrake.
             //Assuming that wheels 2 and 3 are the rear wheels.
+            if (accel > 0f)
+            {
+                m_WheelColliders[0].brakeTorque = 0f;
+                m_WheelColliders[1].brakeTorque = 0f;
+                m_WheelColliders[2].brakeTorque = 0f;
+                m_WheelColliders[3].brakeTorque = 0f;
+            }
+
             if (handbrake > 0f)
             {
                 var hbTorque = handbrake*m_MaxHandbrakeTorque;
+                m_WheelColliders[0].brakeTorque = hbTorque;
+                m_WheelColliders[1].brakeTorque = hbTorque;
                 m_WheelColliders[2].brakeTorque = hbTorque;
                 m_WheelColliders[3].brakeTorque = hbTorque;
-            }
-            else
-            {
-                m_WheelColliders[2].brakeTorque = 0f;
-                m_WheelColliders[3].brakeTorque = 0f;
             }
 
 
@@ -286,7 +291,7 @@ namespace UnityStandardAssets.Vehicles.Car
                 m_WheelColliders[i].GetGroundHit(out wheelHit);
 
                 // is the tire slipping above the given threshhold
-                if (Mathf.Abs(wheelHit.forwardSlip) >= m_SlipLimit || Mathf.Abs(wheelHit.sidewaysSlip) >= m_SlipLimit)
+                if (Mathf.Abs(wheelHit.forwardSlip) >= m_SlipLimit || Mathf.Abs(wheelHit.sidewaysSlip) >= m_SlipLimit && m_BrakeTorque > 0f)
                 {
                     m_WheelEffects[i].EmitTyreSmoke();
 

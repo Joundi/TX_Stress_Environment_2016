@@ -59,11 +59,6 @@ public class TSSimpleCar : MonoBehaviour {
 	/// </summary>
 	public float maxAcceleration = 5f;
 
-	//*****************************TO BE REPLACED********************************************
-	//This would be replaced with the anti-rollbar script, for more real behavior of the cars.
-//	public float mass_center = 0.025f;
-	//*****************************TO BE REPLACED********************************************
-
 	/// <summary>
 	/// The brake torque.
 	/// </summary>
@@ -100,20 +95,6 @@ public class TSSimpleCar : MonoBehaviour {
 	/// The super simple physics.
 	/// </summary>
 	public bool superSimplePhysics = false;
-
-
-	/*EXPERIMENTAL, THIS IS FOR ATTEMPTING TO SWITCH BETTWEN THE TYPES OF PHYSICS
-	/// <summary>
-	/// The autoswitch normal to super simple physics.
-	/// </summary>
-	//public bool AutoswitchNormalToSuperSimplePhysics = false;
-
-	/// <summary>
-	/// The super simple physics tire colliders.  Put here the Sphere colliders that would be like the tires when the car
-	/// is on super simple physics, this is to be able to disable when auto switch from super simple physics is on.
-	/// </summary>
-	//public Collider[] superSimplePhysicsTireColliders;
-	*/
 
 	/// <summary>
 	/// The turn speed.
@@ -317,8 +298,6 @@ public class TSSimpleCar : MonoBehaviour {
 	/// <summary>
 	/// All wheels.
 	/// </summary>
-	/*PART OF EXPERIMENTAL CODE TO AUTO SWITCH FROM AND TO SUPER SIMPLE PHYSICS*/
-//	private TSSimpleCar_Wheel[] allWheels;
 
 	void Awake()
 	{
@@ -329,16 +308,10 @@ public class TSSimpleCar : MonoBehaviour {
 		trafficAI = GetComponent<TSTrafficAI>();
 		audioSource = GetComponent<AudioSource>();
 		if (audioSource ==null)engineAudioEnabled = false;
-
-		/*PART OF EXPERIMENTAL CODE TO AUTO SWITCH FROM AND TO SUPER SIMPLE PHYSICS*/
-//		allWheels = GetComponentsInChildren<TSSimpleCar_Wheel>();
 	}
 
 	void Start () {
-
-
 		//Cache the waitfor seconds for the blinking light code
-
 
 		/*Register the AI script callbacks*/
 		if (trafficAI!= null){
@@ -346,10 +319,6 @@ public class TSSimpleCar : MonoBehaviour {
 			trafficAI.UpdateCarSpeed += UpdateCarSpeed;
 			trafficAI.OnTurnLeft += OnTurnLeft;
 			trafficAI.OnTurnRight += OnTurnRight;
-
-			/*EXPERIMENTAL CODE, FOR ATTEMPTING TO AUTO SWITCH BETWEEN THE 2 TYPES OF PHYSICS
-			trafficAI.OnCloserRange = OnCloserRange;
-			trafficAI.OnFarRange = OnFarRange;*/
 		}
 
 		/*Set the turning lights off at Start*/
@@ -444,9 +413,6 @@ public class TSSimpleCar : MonoBehaviour {
 		}
 	}
 
-
-
-
 	/// <summary>
 	/// Makes a light start blinking.
 	/// </summary>
@@ -467,7 +433,6 @@ public class TSSimpleCar : MonoBehaviour {
 		}
 		blinkingLight.SetActive(false);
 	}
-
 
 	void Update () {
 		if (!crashed){
@@ -497,7 +462,7 @@ public class TSSimpleCar : MonoBehaviour {
 
 				if (playerControlled)
 				{
-					this.steering = Input.GetAxis("Horizontal");
+					steering = Input.GetAxis("Horizontal");
 					float motorTorque =EngineTorque  * Input.GetAxis("Vertical");
 					float maxSteering = Mathf.Max(1-mySpeed/maxSpeed,0.05f);
 					float steerAngle = 55f* Mathf.Clamp(steering,-1f * maxSteering,1f * maxSteering);
@@ -528,15 +493,6 @@ public class TSSimpleCar : MonoBehaviour {
 					}
 					this.brake = Mathf.Clamp01(this.brake);
 				}
-
-				/*To be replaced This code*/
-				// Clamping the minimum and maximum position of the center of mass provides stability at high speeds
-				// This also allows stationary cars to be bowled over/roll on uneven terrain
-//				for (int i = 0; i < bodies.Length;i++){
-//					mass_center = Mathf.Clamp((0.3f+(bodies[i].velocity.magnitude / 35f)),0.02f,1.2f);
-//					bodies[i].centerOfMass = new Vector3(bodies[i].centerOfMass.x, -mass_center,bodies[i].centerOfMass.z);
-//				body.centerOfMass = new Vector3(CoM.localPosition.x * transform.localScale.x, CoM.localPosition.y * transform.localScale.y, CoM.localPosition.z * transform.localScale.z);	
-//				}
 				
 				// Compute the engine RPM based on the average RPM of the two wheels, then call the shift gear function
 				for (int i=0; i < BackWheels.Length;i++)
@@ -585,48 +541,6 @@ public class TSSimpleCar : MonoBehaviour {
 				}
 			}
 		}
-		/*NOT USED CODE  HAVING THIS IS BAD FOR PERFORMANCE*/
-//		else{
-//
-//			int x = 0;
-//			if (brakeInput >0)//< 0.3f && brake1 > 0.0f)
-//				brakeIntensity += brakeIntensityRate;
-//			else if (brakeInput == 0.0f)
-//				brakeIntensity -= brakeIntensityRate;
-//			
-//			brakeIntensity = Mathf.Clamp(brakeIntensity,0,5);
-//			
-//			if (brakeIntensity >0){
-//				if (brakeLigths.Length != 0 )
-//				{
-//					foreach(Renderer brakelight in brakeLigths)
-//					{	
-//						if (brakelight && brakelight.materials.Length !=0){
-//							if (brakelight.materials[brakeLightsIndex[x]]){
-//								brakelight.materials[brakeLightsIndex[x]].SetFloat(propertyName, brakeIntensity);
-//							}
-//						}
-//						x++;
-//					}			
-//				}
-//			}
-//			else if (brakeIntensity == 0.0f)
-//			{
-//				x=0;
-//				if (brakeLigths.Length != 0 )
-//				{
-//					foreach(Renderer brakelight in brakeLigths)
-//					{		
-//						if (brakelight && brakelight.materials.Length !=0){
-//							if (brakelight.materials[brakeLightsIndex[x]]){
-//								brakelight.materials[brakeLightsIndex[x]].SetFloat(propertyName, brakeIntensity);
-//							}
-//						}
-//						x++;
-//					}
-//				}
-//			}
-//		}
 	}
 
 
@@ -644,12 +558,7 @@ public class TSSimpleCar : MonoBehaviour {
 
 		for (int i = 0; i < frontWheels.Length;i++)
 		{
-//			frontWheels[i].Rotate(rotationValue,0,0);
-//			Vector3 tempAngles = frontWheels[i].localEulerAngles;
-//			tempAngles.y = steering;
-//			tempAngles.x += rotationValue;
 			frontWheels[i].localEulerAngles = new Vector3(rotation * Mathf.Rad2Deg, steering,0);// tempAngles;
-
 		}
 		for (int i = 0; i < rearWheels.Length;i++)
 		{
@@ -768,43 +677,6 @@ public class TSSimpleCar : MonoBehaviour {
 		
 	}
 
-	/*EXPERIMENTAL CODE FOR ATTEMPTING TO AUTO SWITCH BETWEEN PHYSICS
-	 * void OnCloserRange()
-	{
-		//Enable the normal physics
-		if (!superSimplePhysics || !AutoswitchNormalToSuperSimplePhysics)return;
-		superSimplePhysics = false;
-		for (int i =0; i < BackWheels.Length;i++)
-		{
-			BackWheels[i].enabled = true;
-			rearWheels[i].localRotation = Quaternion.identity;
-		}
-		for (int i =0; i < FrontWheels.Length;i++)
-		{
-			FrontWheels[i].enabled = true;
-			frontWheels[i].localRotation = Quaternion.identity;
-		}
-		for (int i =0; i < allWheels.Length;i++)
-		{
-			allWheels[i].enabled = true;
-		}
-		for (int i = 0; i < superSimplePhysicsTireColliders.Length;i++)
-		{
-			superSimplePhysicsTireColliders[i].enabled = false;
-		}
-	}
-
-	void OnFarRange()
-	{
-		//Disable the normal physics and enable super simple physics
-		if (!AutoswitchNormalToSuperSimplePhysics)return;
-		superSimplePhysics = true;
-		for (int i = 0; i < superSimplePhysicsTireColliders.Length;i++)
-		{
-			superSimplePhysicsTireColliders[i].enabled = true;
-		}
-	}*/
-
 	Vector3 localspeed;
 	/// <summary>
 	/// Updates the car speed.
@@ -898,6 +770,4 @@ public class TSSimpleCar : MonoBehaviour {
 			ActivatecrashedSmoke();
 		}
 	}
-
-
 }

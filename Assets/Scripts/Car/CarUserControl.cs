@@ -12,7 +12,7 @@ namespace UnityStandardAssets.Vehicles.Car
         // Use this for initialization
         void Start()
         {
-            Debug.Log(LogitechGSDK.LogiSteeringInitialize(true));
+            //Debug.Log(LogitechGSDK.LogiSteeringInitialize(true));
         }
 
         private void Awake()
