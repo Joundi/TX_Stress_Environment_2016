@@ -10,7 +10,7 @@ using System.IO;
 	[MenuItem("GameObject/iTS/Simple Vehicle/Add Empty")]
 	static void AddCarPhysics () {
 		TSSimpleCarRigger myWindow = (TSSimpleCarRigger)EditorWindow.CreateInstance<TSSimpleCarRigger>();
-		myWindow.title = "Car Rig - Wizard";
+		myWindow.titleContent.text = "Car Rig - Wizard";
 		myWindow.Init();
 		myWindow.ShowUtility();
 	}

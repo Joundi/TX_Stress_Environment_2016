@@ -11,7 +11,7 @@ public class TSTrafficLightGroupManagerEditor : Editor {
 	TSTrafficLight[] tlights;
 	Color defaultColor;
 	bool hideDetails = true;
-	Texture2D tex = new Texture2D(1,1);
+    Texture2D tex;
 	float[] totalTime = new float[0];
 	bool ligthsTimeNotSync = false;
 
@@ -84,8 +84,10 @@ public class TSTrafficLightGroupManagerEditor : Editor {
 
 
 	public void OnEnable() 
-	{ 
-		defaultColor =GUI.color;
+	{
+        if (tex == null)
+            tex = new Texture2D(1, 1);
+        defaultColor =GUI.color;
 		manager = (TSTrafficLightGroupManager)target;
 		tlights = manager.GetComponentsInChildren<TSTrafficLight>();
 		UpdateLightsTimes();
