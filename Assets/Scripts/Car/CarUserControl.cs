@@ -57,7 +57,6 @@ namespace UnityStandardAssets.Vehicles.Car
 #endif
             }
             m_Car.Move(h, v, v, handbrake);
-
         }
 
         void OnDestroy()
