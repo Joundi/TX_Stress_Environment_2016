@@ -7,7 +7,7 @@ public class StressEvent_Traffic : StressEvent_Immediate
     public int maxCarNb = 150;
     public int normalCarNb = 10;
 
-    private TSTrafficSpawner m_trafficController;
+    public TSTrafficSpawner m_trafficController;
     //------------------------------------------------------
     //  Initialization
     //------------------------------------------------------
@@ -16,9 +16,8 @@ public class StressEvent_Traffic : StressEvent_Immediate
         base.Start();
 
         // get traffic controller
-        m_trafficController = GetComponent<TSTrafficSpawner>();
         Assert.IsNotNull(m_trafficController, 
-            "Please attache this event script to the object to which a TSTrafficSpawner script has been added!");
+            "Please attache a TSTrafficSpawner!");
 
         // Set car nb
         m_trafficController.amount = normalCarNb;

@@ -27,10 +27,12 @@ public class ContainerEnterTrigger : MonoBehaviour
             float projection = Vector3.Dot(transform.forward, p_player.transform.forward);
             if (projection <= 0.35f)
             {
-                if (projection < 0f && triggerType == EContainerTriggerType.e_Straight)
-                    Debug.LogError("The player drives in the wrong direction !");
+                if (triggerType == EContainerTriggerType.e_Straight)
+                    UIManager.instance.SetWarning(true);
                 return;
             }
+
+            UIManager.instance.SetWarning(false);
 
             if (triggerType == EContainerTriggerType.e_Straight)
             {

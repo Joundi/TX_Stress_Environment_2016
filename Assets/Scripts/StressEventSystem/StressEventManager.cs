@@ -27,7 +27,7 @@ public class StressEventManager : MonoBehaviour {
     void Start()
     {
         // Singleton
-        Assert.IsNull(instance, "We shouldn't have 2 event manager in the scene !");
+        Assert.IsNull(instance, "Stress event manager has already been instantiated!");
         instance = this;
     }
 
