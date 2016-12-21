@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Vehicles.Car
         FourWheelDrive
     }
 
-    internal enum SpeedType
+    public enum SpeedType
     {
         MPH,
         KPH
@@ -53,6 +53,7 @@ namespace UnityStandardAssets.Vehicles.Car
         private const float k_ReversingThreshold = 0.01f;
 
         [SerializeField] private SteeringWheel m_SteeingWheel;
+        [SerializeField] private SpeedMonitor m_speedMonitor;
         public bool Skidding { get; private set; }
         public float BrakeInput { get; private set; }
         public float CurrentSteerAngle{ get { return m_SteerAngle; }}
@@ -209,6 +210,9 @@ namespace UnityStandardAssets.Vehicles.Car
                         m_Rigidbody.velocity = (m_Topspeed/3.6f) * m_Rigidbody.velocity.normalized;
                     break;
             }
+
+            // Set speed to Speed monitor
+            m_speedMonitor.SetCurrentSpeed(speed, m_SpeedType.ToString());
         }
 
 
