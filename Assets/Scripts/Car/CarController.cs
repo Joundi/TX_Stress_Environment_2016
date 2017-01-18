@@ -212,7 +212,7 @@ namespace UnityStandardAssets.Vehicles.Car
             }
 
             // Set speed to Speed monitor
-            m_speedMonitor.SetCurrentSpeed(speed, m_SpeedType.ToString());
+            m_speedMonitor.SetCurrentSpeed(speed * 1.5f, m_SpeedType.ToString()); // 1.5f for the speed seems more realistic
         }
 
 

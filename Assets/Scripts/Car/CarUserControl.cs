@@ -18,10 +18,9 @@ namespace UnityStandardAssets.Vehicles.Car
             // Set Steering wheel range
             LogitechGSDK.LogiControllerPropertiesData controllerProperties = new LogitechGSDK.LogiControllerPropertiesData();
             LogitechGSDK.LogiGetCurrentControllerProperties(0, ref controllerProperties);
-            controllerProperties.wheelRange = wheelRange;
-            LogitechGSDK.LogiSetPreferredControllerProperties(controllerProperties);
-
-            m_Car.m_SteeingWheel.wheelRange = wheelRange;
+            //controllerProperties.wheelRange = wheelRange;
+            //LogitechGSDK.LogiSetPreferredControllerProperties(controllerProperties); //THIS FUNCTION CAUSES CRASH WHEN EDITOR STOPPED!!
+            m_Car.m_SteeingWheel.wheelRange = controllerProperties.wheelRange;
         }
 
         private void Awake()
