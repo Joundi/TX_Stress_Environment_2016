@@ -3,20 +3,11 @@ using System.Collections;
 
 public class SteeringWheel : MonoBehaviour {
 
-    public float rotationDegree = 180f;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    [HideInInspector]
+    public float wheelRange = 360f;
 
     public void Rotate(float steering)
     {
-        transform.localEulerAngles = new Vector3(0, 0, -steering * rotationDegree/2f);
+        transform.localEulerAngles = new Vector3(0, 0, -steering * wheelRange / 2f);
     }
 }

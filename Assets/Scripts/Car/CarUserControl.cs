@@ -7,12 +7,21 @@ namespace UnityStandardAssets.Vehicles.Car
     [RequireComponent(typeof (CarController))]
     public class CarUserControl : MonoBehaviour
     {
+        public int wheelRange = 360;
         private CarController m_Car; // the car controller we want to use
 
         // Use this for initialization
         void Start()
         {
-            //Debug.Log(LogitechGSDK.LogiSteeringInitialize(true));
+            Debug.Log(LogitechGSDK.LogiSteeringInitialize(true));
+
+            // Set Steering wheel range
+            LogitechGSDK.LogiControllerPropertiesData controllerProperties = new LogitechGSDK.LogiControllerPropertiesData();
+            LogitechGSDK.LogiGetCurrentControllerProperties(0, ref controllerProperties);
+            controllerProperties.wheelRange = wheelRange;
+            LogitechGSDK.LogiSetPreferredControllerProperties(controllerProperties);
+
+            m_Car.m_SteeingWheel.wheelRange = wheelRange;
         }
 
         private void Awake()
@@ -44,7 +53,11 @@ namespace UnityStandardAssets.Vehicles.Car
                         // Acceleration pressed
                         v = -(float)(rec.lY - short.MaxValue) / (short.MaxValue - short.MinValue);
                     }
-                    handbrake = -(float)(rec.lRz - short.MaxValue) / (short.MaxValue - short.MinValue);
+                    else if (rec.lRz != short.MaxValue)
+                    {
+                        // Brake pressed
+                        v = (float)(rec.lRz - short.MaxValue) / (short.MaxValue - short.MinValue);
+                    }
                 }
             }
             else
@@ -56,6 +69,8 @@ namespace UnityStandardAssets.Vehicles.Car
                 handbrake = CrossPlatformInputManager.GetAxis("Jump");
 #endif
             }
+
+            // move car
             m_Car.Move(h, v, v, handbrake);
         }
 

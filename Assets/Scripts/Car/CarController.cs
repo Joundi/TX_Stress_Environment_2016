@@ -52,7 +52,7 @@ namespace UnityStandardAssets.Vehicles.Car
         private Rigidbody m_Rigidbody;
         private const float k_ReversingThreshold = 0.01f;
 
-        [SerializeField] private SteeringWheel m_SteeingWheel;
+        public SteeringWheel m_SteeingWheel;
         [SerializeField] private SpeedMonitor m_speedMonitor;
         public bool Skidding { get; private set; }
         public float BrakeInput { get; private set; }
