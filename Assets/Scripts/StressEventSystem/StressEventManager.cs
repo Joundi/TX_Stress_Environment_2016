@@ -9,16 +9,16 @@ public class StressEventManager : MonoBehaviour {
     [System.Serializable]
     public struct SEventSetting
     {
-        public KeyCode eventStartTrigger;
-        public KeyCode eventEndTrigger;
+        public string eventName;
         public StressEvent stressEvent;
     }
 
     static public StressEventManager instance;
 
     public SEventSetting[] eventSettings;
-    private StressEventContainer m_currentEventContainer;
 
+    private Dictionary<string, StressEvent> m_pStressEvents = new Dictionary<string, StressEvent>();
+    private StressEventContainer m_currentEventContainer;
     private Queue<StressEvent_InContainer> m_eventWaitingList = new Queue<StressEvent_InContainer>();
 
     //------------------------------------------------------
@@ -29,30 +29,35 @@ public class StressEventManager : MonoBehaviour {
         // Singleton
         Assert.IsNull(instance, "Stress event manager has already been instantiated!");
         instance = this;
+
+        // Create stress event dictionary
+        for (int i = 0; i < eventSettings.Length; ++i)
+        {
+            m_pStressEvents.Add(eventSettings[i].eventName, eventSettings[i].stressEvent);
+        }
     }
 
     //------------------------------------------------------
-    //  Input trigger management
+    //  Start Stress Event
     //------------------------------------------------------
-    void Update()
+    public void StartEvent(string eventName)
     {
-        foreach (SEventSetting setting in eventSettings)
+        // the IsInactive need to be checked here but not in StartEvent(), as it will be overrided in its child classes
+        if (m_pStressEvents[eventName].IsInactive)
         {
-            if (Input.GetKeyDown(setting.eventStartTrigger))
-            {
-                if (setting.stressEvent.IsInactive)
-                {
-                    setting.stressEvent.StartEvent();
-                }
-            };
+            m_pStressEvents[eventName].StartEvent();
+        }
+    }
 
-            if (Input.GetKeyDown(setting.eventEndTrigger))
-            {
-                if (!setting.stressEvent.IsInactive)
-                {
-                    setting.stressEvent.EndEvent();
-                }
-            };
+    //------------------------------------------------------
+    //  End Stress Event
+    //------------------------------------------------------
+    public void EndEvent(string eventName)
+    {
+        // the IsInactive need to be checked here but not in EndEvent(), as it will be overrided in its child classes
+        if (!m_pStressEvents[eventName].IsInactive)
+        {
+            m_pStressEvents[eventName].EndEvent();
         }
     }
 
