@@ -19,7 +19,7 @@ namespace UnityStandardAssets.Vehicles.Car
             LogitechGSDK.LogiControllerPropertiesData controllerProperties = new LogitechGSDK.LogiControllerPropertiesData();
             LogitechGSDK.LogiGetCurrentControllerProperties(0, ref controllerProperties);
             //controllerProperties.wheelRange = wheelRange;
-            //LogitechGSDK.LogiSetPreferredControllerProperties(controllerProperties); //THIS FUNCTION CAUSES CRASH WHEN EDITOR STOPPED!!
+            //LogitechGSDK.LogiSetPreferredControllerProperties(controllerProperties); //THIS FUNCTION CAUSES CRASH WHEN EDITOR STOPPED for Unity version 5+ss!!
             m_Car.m_SteeingWheel.wheelRange = controllerProperties.wheelRange;
         }
 
@@ -36,7 +36,7 @@ namespace UnityStandardAssets.Vehicles.Car
             float v = 0f;
             float handbrake = 0f;
 
-            // pass the input to the car!
+            // pass Logitech/keyboard input to the car
             if (LogitechGSDK.LogiIsConnected(0))
             {
                 // pass logitech input to the car
@@ -45,6 +45,7 @@ namespace UnityStandardAssets.Vehicles.Car
                     LogitechGSDK.DIJOYSTATE2ENGINES rec;
                     rec = LogitechGSDK.LogiGetStateUnity(0);
 
+                    // steering wheel
                     h = (float)rec.lX/short.MaxValue;
 
                     if (rec.lY != short.MaxValue)
@@ -61,11 +62,11 @@ namespace UnityStandardAssets.Vehicles.Car
             }
             else
             {
-                // pass key board input to the car
-                h = CrossPlatformInputManager.GetAxis("Horizontal");
-                v = CrossPlatformInputManager.GetAxis("Vertical");
+                // pass keyboard input to the car
+                h = CrossPlatformInputManager.GetAxis("Horizontal");   // Steering wheel
+                v = CrossPlatformInputManager.GetAxis("Vertical");     // Acceleration forward/backward
 #if !MOBILE_INPUT
-                handbrake = CrossPlatformInputManager.GetAxis("Jump");
+                handbrake = CrossPlatformInputManager.GetAxis("Jump"); // Handbrake
 #endif
             }
 

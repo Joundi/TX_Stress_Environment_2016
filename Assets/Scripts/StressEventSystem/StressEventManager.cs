@@ -42,9 +42,17 @@ public class StressEventManager : MonoBehaviour {
     //------------------------------------------------------
     public void StartEvent(string eventName)
     {
+        // check existance
+        if (!m_pStressEvents.ContainsKey(eventName))
+        {
+            Debug.LogError("Event " + eventName + " doesn't exist");
+            return;
+        }
+
         // the IsInactive need to be checked here but not in StartEvent(), as it will be overrided in its child classes
         if (m_pStressEvents[eventName].IsInactive)
         {
+            Debug.Log("Event " + eventName + " starts");
             m_pStressEvents[eventName].StartEvent();
         }
     }
@@ -54,9 +62,17 @@ public class StressEventManager : MonoBehaviour {
     //------------------------------------------------------
     public void EndEvent(string eventName)
     {
+        // check existance
+        if (!m_pStressEvents.ContainsKey(eventName))
+        {
+            Debug.LogError("Event " + eventName + " doesn't exist");
+            return;
+        }
+
         // the IsInactive need to be checked here but not in EndEvent(), as it will be overrided in its child classes
         if (!m_pStressEvents[eventName].IsInactive)
         {
+            Debug.Log("Event " + eventName + " ends");
             m_pStressEvents[eventName].EndEvent();
         }
     }
