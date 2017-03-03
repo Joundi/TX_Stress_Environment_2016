@@ -33,6 +33,8 @@ public class StressEvent : MonoBehaviour
 
     [HideInInspector]
     public EStressEventType m_eventType;
+    [HideInInspector]
+    public string m_eventName;
     protected EStressEventState m_eventState;
 
     //------------------------------------------------------
@@ -55,8 +57,16 @@ public class StressEvent : MonoBehaviour
     //------------------------------------------------------
     //  To be implemented in child classes
     //------------------------------------------------------
-    virtual public void StartEvent() { m_eventState = EStressEventState.e_ongoing; }
-    virtual public void EndEvent() { m_eventState = EStressEventState.e_inactive; }
+    virtual public void StartEvent()
+    {
+        Debug.Log("Event " + m_eventName + " starts");
+        m_eventState = EStressEventState.e_ongoing;
+    }
+    virtual public void EndEvent()
+    {
+        Debug.Log("Event " + m_eventName + " ends");
+        m_eventState = EStressEventState.e_inactive;
+    }
 }
 
 abstract public class StressEvent_Immediate : StressEvent

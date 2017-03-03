@@ -34,6 +34,7 @@ public class StressEventManager : MonoBehaviour {
         for (int i = 0; i < eventSettings.Length; ++i)
         {
             m_pStressEvents.Add(eventSettings[i].eventName, eventSettings[i].stressEvent);
+            eventSettings[i].stressEvent.m_eventName = eventSettings[i].eventName;
         }
     }
 
@@ -52,7 +53,6 @@ public class StressEventManager : MonoBehaviour {
         // the IsInactive need to be checked here but not in StartEvent(), as it will be overrided in its child classes
         if (m_pStressEvents[eventName].IsInactive)
         {
-            Debug.Log("Event " + eventName + " starts");
             m_pStressEvents[eventName].StartEvent();
         }
     }
@@ -72,7 +72,6 @@ public class StressEventManager : MonoBehaviour {
         // the IsInactive need to be checked here but not in EndEvent(), as it will be overrided in its child classes
         if (!m_pStressEvents[eventName].IsInactive)
         {
-            Debug.Log("Event " + eventName + " ends");
             m_pStressEvents[eventName].EndEvent();
         }
     }
