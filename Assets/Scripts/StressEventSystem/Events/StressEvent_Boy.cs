@@ -35,13 +35,14 @@ public class StressEvent_Boy : StressEvent_InContainer
     }
 
     //------------------------------------------------------
-    //  implement the behavior of the event
+    //  Reset event values, prepare it for the next call
     //------------------------------------------------------
     public override void EndContainerEvent()
     {
-        boy.GetComponent<Animation>().Stop("run ");
-        boy.transform.localPosition = m_initialPosition;
-        boy.transform.localRotation = m_initialRotation;
+        base.EndContainerEvent();
+        boy.GetComponent<Animation>().Stop("run "); // stop animation
+        boy.transform.localPosition = m_initialPosition; // reset position
+        boy.transform.localRotation = m_initialRotation; // reset rotation
     }
 
     //------------------------------------------------------

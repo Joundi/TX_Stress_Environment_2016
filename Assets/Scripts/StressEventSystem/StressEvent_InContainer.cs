@@ -82,10 +82,10 @@ public class StressEvent_InContainer : StressEvent
     }
 
     //------------------------------------------------------
-    //  To be implemented in child classes
+    //  Reset event values, prepare it for the next call
     //------------------------------------------------------
     virtual public void EndContainerEvent()
     {
-        // Reset event values, prepare it for the next call
+
     }
 }
